@@ -1,0 +1,143 @@
+#:kivy 1.1.0
+WindowManager:
+    MainWindow:
+    #Root:
+    #LoadDialog:
+    #SaveDialog:
+
+# Одинаковая часть кода
+<Itemlabel@Label>:
+    font_size: '25sp' #scalabel pixels, одинаковые для разных расширений
+    halign: 'left' #Горизонтальное выравнивание
+    valign: 'middle' #Вертикальное выравнивание
+    # Чтобы заработали свойства halign и valign нужно text_size растянуть по размерам самой метки
+    text_size: self.size
+
+<ItemImage@Image>:
+    #size: self.texture_size
+    #size_hint_x: 0.5
+    #size_hint_y: 0.5
+    size_hint : 0.8, 0.8
+    pos_hint: {"right": 1, "center_y": .5}
+
+<ItemButton@Button>:
+    size_hint_y: None
+    height: '90dp'
+    size_hint_x: None
+    width: '200dp'
+    pos_hint: {"center_x": .5, "center_y": .5}
+    #pos_hint: {"x":0.35, "y":0.3}
+
+<ItemBoxLayout@BoxLayout>:
+    padding:10
+
+<MainWindow>:
+    name: "main"
+    GridLayout:
+        canvas:
+            Rectangle:
+                source: 'kvfiles/4.jpg'
+                size: self.size
+                pos: self.pos
+        rows: 5
+
+        BoxLayout:
+
+            size_hint : 1, 0.8
+            Image:
+                padding: 30, 0, 0, 0
+                source: 'kvfiles/1.jpg'
+                size_hint : 0.8, 0.8
+                pos_hint: {"right": 1, "center_y": 0.2}
+
+            Image:
+                #left, top, right, bottom
+                padding: 0, 0, 30, 0
+                source: 'kvfiles/3.jpg'
+                size: self.texture_size
+                size_hint : 1.5, 1.5
+                pos_hint: {"x": 0, "top": 1}
+
+        #1 ряд
+        ItemBoxLayout:
+            Itemlabel:
+                text: 'IP адрес'
+
+            GridLayout:
+                rows: 2
+                TextInput:
+                    id: text_input
+                    font_size: '45sp'
+                    multiline: True
+                    font_size: 30
+                    text: "127.0.0.1"
+                    #Фильтрация неправильного ввода
+                    #input_type: 'number'
+                    #nput_filter: 'int'
+
+                TextInput:
+                    id: text_input1
+                    font_size: '45sp'
+                    multiline: True
+                    font_size: 30
+                    text: "8888"
+                    #Фильтрация неправильного ввода
+                    #input_type: 'number'
+                    #nput_filter: 'int'
+
+        # 2 ряд
+        ItemBoxLayout:
+
+            ItemImage:
+                source: 'kvfiles/2.jpg'
+
+            ItemButton:
+                background_normal: 'kvfiles/5.jpg'
+                background_down: 'kvfiles/5_1.jpg'
+                #Обработчик
+                on_release:
+                    #Запуск потока
+                    root.hostAdress()
+                    root.triggerForYoutube()
+
+        # 3 ряд
+        ItemBoxLayout:
+            ItemButton:
+                background_normal: 'kvfiles/6.jpg'
+                background_down: 'kvfiles/6_1.jpg'
+                #Обработчик
+                on_release:
+                    #Запуск потока
+                    root.hostAdress()
+                    root.triggerForGoogle()
+
+            ItemButton:
+                background_normal: 'kvfiles/7.jpg'
+                background_down: 'kvfiles/7_1.jpg'
+                #Обработчик
+                on_release:
+                    #Запуск потока
+                    root.hostAdress()
+                    root.triggerForVK()
+
+        # 4 ряд
+        ItemBoxLayout:
+            ItemButton:
+                background_normal: 'kvfiles/8.jpg'
+                background_down: 'kvfiles/8_1.jpg'
+                #Обработчик
+                on_release:
+                    #Запуск потока
+                    root.hostAdress()
+                    root.triggerForFile()
+
+            ItemButton:
+                background_normal: 'kvfiles/9.jpg'
+                background_down: 'kvfiles/9_1.jpg'
+                #Обработчик
+                on_release:
+                    #Запуск потока
+                    root.hostAdress()
+                    root.triggerForProgramm()
+
+
