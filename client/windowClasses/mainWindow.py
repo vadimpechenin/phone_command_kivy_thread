@@ -1,7 +1,7 @@
 # Клиент для запуска сервисов
 from client.applicationEnvironment import appEnvironment
 from kivy.uix.popup import Popup
-import socket
+#import socket
 
 #Библиотеки для многих страниц
 from kivy.uix.screenmanager import Screen
@@ -10,6 +10,15 @@ import threading
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
+import time
+
+#from client.common.socketHelper import SocketHelper
+# Библиотеки для формирования структуры пересылаемого сообщения
+from client.message.messageStructure import MessageStructure
+from client.message.messageStructureParameter import MessageStructureParameter
+from client.message.messageResponceParameter import MessageResponceParameter
+
+from client.clientModule import MySocket
 
 class MainWindow(Screen):
     def __init__(self, *args, **kwargs):
@@ -19,11 +28,21 @@ class MainWindow(Screen):
         self.port = 8888
         self.title = 'Предупреждение'
         self.text = 'Не верный IP адрес или не запущен сервер'
-        self.hello_label = Label(text="Connecting...", size_hint=(1, 1.7), font_size=20)
+        # Объект - запрос на сервер
+        self.messageParameter = MessageStructureParameter()
+        # Объект - ответ с сервера
+        self.messageResponce = MessageResponceParameter()
+        self.send_data = 0
         threading.Thread(target=self.recv_msg).start()
 
     def recv_msg(self):
-        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        #self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        while True:
+            time.sleep(0.3)
+            if (self.send_data==1):
+                self.sock = MySocket(host = self.host, port = self.port)
+                self.sendData()
+                self.send_data = 0
         #self.client.connect(('127.0.0.1', self.port))
 
     def hostAdress(self):
@@ -31,35 +50,43 @@ class MainWindow(Screen):
         self.port = int(self.ids.text_input1.text)
 
     def triggerForYoutube(self):
-        s = "youtube"
-        self.sendData(s)
+        self.messageParameter.codeString = "youtube"
+        self.send_data = 1
+        #self.sendData()
 
     def triggerForGoogle(self):
 
-        s = "google"
-        self.sendData(s)
+        self.messageParameter.codeString = "google"
+        self.send_data = 1
+        #self.sendData()
 
     def triggerForVK(self):
 
-        s = "vk"
-        self.sendData(s)
+        self.messageParameter.codeString = "vk"
+        #self.sendData()
+        self.send_data = 1
 
     def triggerForFile(self):
 
-        s = "фильм"
-        self.sendData(s)
+        self.messageParameter.codeString = "фильм"
+        #self.sendData()
+        self.send_data = 1
 
     def triggerForProgramm(self):
 
-        s = "steam"
-        self.sendData(s)
+        self.messageParameter.codeString = "steam"
+        #self.sendData()
+        self.send_data = 1
 
-    def sendData(self,s):
+    def sendData(self):
         #Одинаковая часть кода по отправке сообщений
         try:
-            self.client.connect((self.host, self.port))
-            self.client.sendall(s.encode("utf-8"))
-            self.client.close()
+            #self.client.connect((self.host, self.port))
+            #self.client.sendall(self.messageParameter.codeString.encode("utf-8"))
+            #self.client.close()
+            print('Зашел в отправку сообщения')
+            self.sock.send_data(self.messageParameter)
+            #self.messageParameter = MessageStructure.ClearObject(self.messageParameter)
         except:
 
             self.popupForFilter(self.title, self.text)

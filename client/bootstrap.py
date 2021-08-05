@@ -1,7 +1,7 @@
 from client.applicationEnvironment import appEnvironment
-#from client.clientModule import MySocket
+from client.clientModule import MySocket
 from kivy.lang import Builder
-from kivy.factory import Factory
+
 # Для размера окна
 from kivy.core.window import Window
 
@@ -13,7 +13,7 @@ class Bootstrap():
 
     @staticmethod
     def initEnviroment():
-        #appEnvironment.sock = MySocket(serverClient=0)
+        #appEnvironment.sock = MySocket()
         appEnvironment.koef = 1
         if (appEnvironment.koef == 1):
             Window.size = (420, 800)

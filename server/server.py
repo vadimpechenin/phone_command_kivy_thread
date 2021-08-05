@@ -4,6 +4,17 @@ import socket
 import webbrowser
 import os
 
+from client.common.socketHelper import SocketHelper
+
+from client.message.messageStructure import MessageStructure
+from client.message.messageStructureParameter import MessageStructureParameter
+from client.message.messageResponceParameter import MessageResponceParameter
+
+# Объект - запрос на сервер
+messageParameter = MessageStructureParameter()
+#Объект - ответ с сервера
+messageResponce = MessageResponceParameter()
+
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #Берем название рабочей машины и по ее имени ip
 print(socket.gethostbyname_ex(socket.gethostname()))
@@ -16,31 +27,39 @@ server.bind((host, port))
 
 server.listen(1)
 
+print("Server is listening", '\n')
+
 
 
 while True:
     try:
-        print("Server is listening", '\n')
-        #server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         user, adres = server.accept()
+        helper = SocketHelper(user)
+        print("got a connection from %s" % str(adres))
+
     except KeyboardInterrupt:
         server.close()
         break
     else:
-        data = user.recv(1024).decode("utf-8").lower()
-        print(data)
+        sizeOfRequest = helper.readInt()
+        print("Размер принимаемого сообщения: " + str(sizeOfRequest))
+        messageParameterAsBytes = helper.readBytesArray(sizeOfRequest)
+        messageParameter = MessageStructure.RestoreFromBytes(messageParameterAsBytes)
+
+        #data = user.recv(1024).decode("utf-8").lower()
+        print(messageParameter.codeString)
         #URL ссылки
-        if data == "youtube":
+        if messageParameter.codeString == "youtube":
             webbrowser.open("https://www.youtube.com/")
-        elif data == "google":
+        elif messageParameter.codeString == "google":
             webbrowser.open("https://www.google.com/")
-        elif data == "vk":
+        elif messageParameter.codeString == "vk":
             webbrowser.open("https://www.vk.com/")
 
         # Запуск приложения
-        elif data == "steam":
+        elif messageParameter.codeString == "steam":
             os.startfile("C:/Users/User/AppData/Local/FreeCAD 0.18/bin/FreeCAD.exe")
-        elif data == "фильм":
+        elif messageParameter.codeString == "фильм":
             os.startfile("D:/Фильмы/Призрак в доспехах/Ghost in shell.avi")
         else:
             print('Неверный ввод')
