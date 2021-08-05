@@ -15,14 +15,20 @@ port = 8888
 server.bind((host, port))
 
 server.listen(1)
-print("Server is listening", '\n')
-user, adres = server.accept()
+
+
 
 while True:
     try:
+        print("Server is listening", '\n')
+        #server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        user, adres = server.accept()
+    except KeyboardInterrupt:
+        server.close()
+        break
+    else:
         data = user.recv(1024).decode("utf-8").lower()
         print(data)
-
         #URL ссылки
         if data == "youtube":
             webbrowser.open("https://www.youtube.com/")
@@ -38,9 +44,3 @@ while True:
             os.startfile("D:/Фильмы/Призрак в доспехах/Ghost in shell.avi")
         else:
             print('Неверный ввод')
-
-    except Exception as err:
-        print(str(err), '\n')
-        break
-
-server.close()
