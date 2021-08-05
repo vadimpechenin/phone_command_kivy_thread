@@ -1,5 +1,4 @@
 from client.applicationEnvironment import appEnvironment
-from client.clientModule import MySocket
 from kivy.lang import Builder
 
 # Для размера окна

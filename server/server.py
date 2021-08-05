@@ -50,16 +50,31 @@ while True:
         print(messageParameter.codeString)
         #URL ссылки
         if messageParameter.codeString == "youtube":
+            messageResponce.message = "Запущен https://www.youtube.com/"
             webbrowser.open("https://www.youtube.com/")
         elif messageParameter.codeString == "google":
+            messageResponce.message = "Запущен https://www.google.com/"
             webbrowser.open("https://www.google.com/")
         elif messageParameter.codeString == "vk":
+            messageResponce.message = "Запущен https://www.vk.com/"
             webbrowser.open("https://www.vk.com/")
 
         # Запуск приложения
         elif messageParameter.codeString == "steam":
+            messageResponce.message = "Запущен FreeCAD.exe"
             os.startfile("C:/Users/User/AppData/Local/FreeCAD 0.18/bin/FreeCAD.exe")
         elif messageParameter.codeString == "фильм":
+            messageResponce.message = "Запущен Ghost in shell.avi"
             os.startfile("D:/Фильмы/Призрак в доспехах/Ghost in shell.avi")
         else:
+            messageResponce.message = "Неверный ввод"
             print('Неверный ввод')
+
+        messageResponceAsBytes = MessageStructure.SaveToBytes(messageResponce)
+
+        helper.writeInt(len(messageResponceAsBytes))
+        print("Размер отсылаемого ответа:", len(messageResponceAsBytes))
+
+        helper.writeBytesArray(messageResponceAsBytes)
+        print("Ответ отправлен")
+

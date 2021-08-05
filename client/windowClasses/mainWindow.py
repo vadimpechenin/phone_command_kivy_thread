@@ -42,7 +42,11 @@ class MainWindow(Screen):
             if (self.send_data==1):
                 self.sock = MySocket(host = self.host, port = self.port)
                 self.sendData()
+                self.send_data = 2
+            if (self.send_data==2):
+                self.messageResponce = self.sock.get_data()
                 self.send_data = 0
+                self.Responce_popup(self.messageResponce.message)
         #self.client.connect(('127.0.0.1', self.port))
 
     def hostAdress(self):
@@ -97,6 +101,17 @@ class MainWindow(Screen):
         content = Button(text='Закрыть')
         PopupGrid.add_widget(content)
         popup = Popup(title=title, content=PopupGrid,
+                      auto_dismiss=False, size_hint=(None, None), size=(int(300 * self.koef), int(200 * self.koef)))
+
+        content.bind(on_press=popup.dismiss)
+        popup.open()
+
+    def Responce_popup(self, text):
+        PopupGrid = GridLayout(rows=2, size_hint_y=None)
+        PopupGrid.add_widget(Label(text=text))
+        content = Button(text='Закрыть')
+        PopupGrid.add_widget(content)
+        popup = Popup(title = 'Ответ сервера', content=PopupGrid,
                       auto_dismiss=False, size_hint=(None, None), size=(int(300 * self.koef), int(200 * self.koef)))
 
         content.bind(on_press=popup.dismiss)

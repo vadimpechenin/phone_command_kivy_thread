@@ -1,8 +1,6 @@
 """
 Реализация socket клиент, передача сообщения и картинки
 """
-import os
-import time
 import socket
 
 from client.common.socketHelper import SocketHelper
