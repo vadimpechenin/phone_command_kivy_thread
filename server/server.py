@@ -19,8 +19,8 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #Берем название рабочей машины и по ее имени ip
 print(socket.gethostbyname_ex(socket.gethostname()))
 
-host = '192.168.1.60'
-host = '127.0.0.1'
+host = '192.168.0.103'
+#host = '127.0.0.1'
 port = 8888
 
 server.bind((host, port))

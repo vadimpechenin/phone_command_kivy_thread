@@ -11,15 +11,15 @@ from client.message.messageResponceParameter import MessageResponceParameter
 from threading import Lock
 
 class MySocket:
-    #HOST = '192.168.0.158'
-    HOST = '127.0.0.1'
+    HOST = '192.168.0.103'
+    #HOST = '127.0.0.1'
     PORT = 8888
     BUFFER_LENGTH = 2048
     # Объект - ответ с сервера
     messageResponce = MessageResponceParameter()
 
     def __init__(self, serverClient = 1, host=HOST, port=PORT):
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock = socket.socket()
 
         if (serverClient==1):
             self.sock.connect((host, port))
